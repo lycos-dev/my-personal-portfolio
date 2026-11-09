@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { ArrowUpRight } from "lucide-react";
+import { CredentialsSection } from "./credentials-section";
 import { HeroPortrait } from "./hero-portrait";
 import { usePortfolioMotion } from "./use-portfolio-motion";
 import { MotionControl, useMotionPreference } from "./motion-preference";
@@ -17,14 +19,13 @@ const sections = [
   "About",
   "Projects",
   "Skills",
+  "Credentials",
   "Experience",
   "Contact",
 ];
 function Arrow() {
   return (
-    <span className="arrow" aria-hidden="true">
-      ↗
-    </span>
+    <ArrowUpRight className="arrow" aria-hidden="true" size={16} strokeWidth={1.75} />
   );
 }
 function SectionLabel({ children }: { children: React.ReactNode }) {
@@ -231,13 +232,14 @@ export default function Home() {
                 Blanza<span>.</span>
               </h1>
               <div className="hero-support">
-                <h2 className="hero-title">Software Engineer</h2>
+                <h2 className="hero-title">Computer Science &amp; Software Development</h2>
                 <p className="hero-subtitle">
-                  Computer Science · De La Salle Lipa
+                  Web & Mobile Applications · Intelligent Systems
                 </p>
                 <p className="hero-intro">
-                  I build full-stack applications and intelligent systems, with
-                  a focus on privacy, usability, and reliable software.
+                  I develop practical software solutions, from web and mobile
+                  applications to intelligent systems, with a focus on usability
+                  and real-world impact.
                 </p>
               </div>
               <div className="hero-controls">
@@ -286,15 +288,15 @@ export default function Home() {
             </h2>
             <div className="about-copy">
               <p>
-                I'm a Computer Science student at De La Salle Lipa. My work
-                spans web and mobile applications, embedded safety systems, and
-                tools that organize complex information.
+                I'm a fourth-year Computer Science student at De La Salle Lipa,
+                building web and mobile applications alongside intelligent
+                systems that address real-world problems.
               </p>
               <p>
-                I combine software development with experience in graphic
-                design, video editing, and web design. That perspective helps me
-                turn technical requirements into interfaces people can
-                understand.
+                My projects include leading a four-person team for SafeSeat,
+                developing DocVia's document-based learning experience, and
+                building NEXA, a mobile fitness tracker. I'm seeking opportunities
+                to contribute, learn, and grow with a development team.
               </p>
             </div>
           </div>
@@ -349,12 +351,13 @@ export default function Home() {
             ))}
           </div>
         </section>
+        <CredentialsSection motionEnabled={motionEnabled} />
         <section
           id="experience"
           className="section experience-section wrap"
           aria-labelledby="experience-title"
         >
-          <SectionLabel>04 / JOURNEY</SectionLabel>
+          <SectionLabel>05 / JOURNEY</SectionLabel>
           <div className="journey-grid">
             <h2 id="experience-title">
               Education &<br />
@@ -375,13 +378,9 @@ export default function Home() {
                 </p>
               </li>
               <li>
-                <span className="timeline-date">DATACAMP</span>
-                <h3>Courses & Certifications</h3>
-                <p>
-                  Python, R, Pytorch, Tidyverse, Pandas, Statistical
-                  Fundamentals, Exploratory Analysis, and Statistical
-                  Experimentation.
-                </p>
+                <span className="timeline-date">FIRST SEMESTER · AY 2025–2026</span>
+                <h3>Second Honor Awardee</h3>
+                <p>De La Salle Lipa · GPA 3.6389</p>
               </li>
             </ol>
           </div>
@@ -391,7 +390,7 @@ export default function Home() {
           className="section contact-section wrap"
           aria-labelledby="contact-title"
         >
-          <SectionLabel>05 / CONTACT</SectionLabel>
+          <SectionLabel>06 / CONTACT</SectionLabel>
           <div className="contact-grid">
             <div>
               <h2 id="contact-title">

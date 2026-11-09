@@ -45,3 +45,16 @@ The desktop container uses fluid 4vw gutters (capped at 112px), without a 1320px
 - NEXA: https://github.com/lycos-dev/final-project-group4 (README, package dependencies, and workout/routine context implementations).
 
 Repository information reviewed on 2026-09-15.
+
+## Credentials & achievements (November 2026 update)
+
+- The new `app/credentials-section.tsx` builds the autoplay featured gallery, filters, and certificate viewer.
+- `app/credentials.ts` is the catalog of twelve actual user-supplied credentials.
+- `public/credentials/images/*.webp` are direct renderings of page one of each original uploaded PDF, **not generated substitute certificates**.
+- `public/credentials/pdf/*.pdf` are the original certificate files and are opened through the certificate detail viewer.
+- The five DataCamp courses link to the issuer's supplied completion-page URLs; the other credentials do not claim independent issuer verification.
+- The CaLaBaRZon event-photo link is credited to De La Salle Lipa and loads from its official site. It is supplementary to the original certificate and may require internet access.
+- `public/blanza_lycos-resume.pdf` has been replaced by the latest résumé supplied with the certificates.
+- The old hero animation and existing project layout are intentionally retained. The hero subtitle and site metadata no longer claim a held Software Engineer title.
+
+Start locally from this folder with `npm install` then `npm run dev`. The gallery automatically advances every six seconds while in view; hover/focus, modal viewing, hidden tabs, motion-disabled mode, and explicit pause stop automatic progression.

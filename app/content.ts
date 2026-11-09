@@ -1,4 +1,4 @@
-// Professional details from the supplied résumé and repositories, reviewed 2026-09-15.
+// Professional details aligned with latest user résumé, November 2026.
 export const portfolio = {
   name: "Lycos Blanza",
   resume: "/blanza_lycos-resume.pdf",
@@ -15,10 +15,10 @@ export const portfolio = {
 export const projects = [
   {
     id: "safeseat", number: "01", title: "SafeSeat", category: "Embedded Systems / Undergraduate Thesis",
-    description: "A privacy-conscious vehicle monitoring system that combines sensor inputs to identify potentially abnormal occupant conditions and trigger verification when needed.",
+    description: "An add-on passenger safety system for five-seater vehicles, combining mmWave, pressure, temperature and motion sensors with event-based computer vision.",
     focus: "Sensor fusion, anomaly detection, and consent-driven system design.",
     technologies: ["ESP32", "C++", "Python", "Computer Vision", "IoT"],
-    details: ["Combines physiological and behavioral sensor inputs for occupant monitoring and anomaly detection.", "Adapts emergency logic to driver status, passenger presence, and user-defined escalation settings.", "Uses session-scoped data and granular consent, with camera-based verification triggered only when necessary."],
+    details: ["Coordinated a four-person team through milestones, sensor integration and testing.", "Adapts emergency logic to driver status, passenger presence, and user-defined escalation settings.", "Uses session-scoped data and granular consent, with camera-based verification triggered only when necessary."],
     image: "/projects/safeseat-showcase.jpg",
     imageAlt: "SafeSeat vehicle occupant monitoring project with seat sensor illustration and system architecture overview",
     imageCaption: "Sensor integration / Thesis project",
@@ -26,7 +26,7 @@ export const projects = [
   },
   {
     id: "docvia", number: "02", title: "DocVia", category: "Web Application / Learning",
-    description: "An AI-powered learning project that turns PDFs into structured lessons, with contextual questions and quizzes to support active recall.",
+    description: "A React learning application that turns uploaded PDFs into structured lessons and learning pathways, with contextual AI tutor interactions and quizzes.",
     focus: "Document-based learning and a clear, reusable React interface.",
     technologies: ["React", "TypeScript", "Vite"],
     details: ["The project organizes uploaded PDFs into a learning roadmap and segmented lessons.", "An AI tutor and generated microtasks support questions and active recall around learning materials.", "The linked frontend repository contains the React application foundation, authentication screens, and shared UI components."],
@@ -37,7 +37,7 @@ export const projects = [
   },
   {
     id: "fitness", number: "03", title: "NEXA", category: "Mobile Application / Fitness",
-    description: "A mobile fitness tracker for planning routines, logging workouts, and revisiting exercise history through a consistent, accessible interface.",
+    description: "A React Native fitness tracker for planning workout routines, logging sessions and reviewing training history, with local persistence via AsyncStorage.",
     focus: "Reusable mobile components, typed navigation, and local persistence.",
     technologies: ["React Native", "Expo", "TypeScript", "AsyncStorage"],
     details: ["Supports exercise-library management, routine creation, and workout logging.", "Persists workouts, routines, and preferences locally with AsyncStorage.", "Uses reusable interface components and typed navigation across exercise, workout, and profile screens."],
