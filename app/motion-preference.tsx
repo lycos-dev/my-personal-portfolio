@@ -1,7 +1,9 @@
 "use client";
 import { useEffect, useState } from "react";
 
-const STORAGE_KEY = "lycos-portfolio-motion";
+// New default-on preference. v8 stored reduced-mode during testing for some visitors;
+// give this version a clean starting preference, while remembering future choices.
+const STORAGE_KEY = "lycos-portfolio-motion-v9";
 
 /** Motion starts on; a visitor's saved off choice always takes precedence. */
 export function useMotionPreference() {

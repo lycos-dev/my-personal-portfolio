@@ -1,7 +1,8 @@
 // Professional details aligned with latest user résumé, November 2026.
 export const portfolio = {
   name: "Lycos Blanza",
-  resume: "/blanza_lycos-resume.pdf",
+  resume: "/blanza-lycos-resume.pdf",
+  cv: "/blanza-lycos-cv.pdf",
   email: "blanzalycos@gmail.com",
   phone: "0995 678 3687",
   phoneHref: "tel:+639956783687",

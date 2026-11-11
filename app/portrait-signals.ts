@@ -1,5 +1,5 @@
 /** Flowing threads resolve into an architectural LB monogram.
- * Every coordinate depends only on scroll and pointer, never elapsed time.
+ * Driven by the intercepted first scroll gestures; no timed introduction.
  */
 const clamp = (n: number) => Math.max(0, Math.min(1, n));
 const smooth = (n: number) => { const t = clamp(n); return t * t * (3 - 2 * t); };
@@ -29,12 +29,11 @@ export function drawPortraitSignals(
   progress: number, pointerX: number, pointerY: number, compact: boolean,
 ) {
   ctx.clearRect(0,0,width,height);
-  const settle = smooth((progress-.08)/.58);
-  const exit = smooth((progress-.80)/.20);
+  const settle = smooth((progress-.02)/.97);
   const samples = compact ? 32 : 64;
   const threads = compact ? 2 : 4;
   const spread = compact ? 3 : 8;
-  ctx.lineWidth = .75;
+  ctx.lineWidth = compact ? 1 : 1.32;
   for(let s=0;s<strokes.length;s++) {
     for(let layer=0;layer<threads;layer++) {
       ctx.beginPath();
@@ -49,13 +48,13 @@ export function drawPortraitSignals(
         const y=mix(freeY,target[1]+separation,settle)*height-pointerY*spread*(1-settle*.6);
         if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);
       }
-      ctx.strokeStyle=`rgba(195,204,218,${(.12+settle*.09)*(1-exit*.7)*(layer===0?1:.48)})`;
+      ctx.strokeStyle=`rgba(195,204,218,${(.14+settle*.21)*(layer===0?1:.48)})`;
       ctx.stroke();
     }
     const marker=onStroke(strokes[s],clamp(progress*1.6));
     const x=marker[0]*width-pointerX*spread*.4;
     const y=marker[1]*height-pointerY*spread*.4;
-    ctx.fillStyle=`rgba(218,225,234,${settle*.48*(1-exit)})`;
+    ctx.fillStyle=`rgba(218,225,234,${settle*.62})`;
     ctx.beginPath();ctx.arc(x,y,1.6,0,Math.PI*2);ctx.fill();
   }
 }

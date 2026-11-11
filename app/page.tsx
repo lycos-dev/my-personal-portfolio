@@ -1,9 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { ArrowUpRight } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { ArrowUpRight, ChevronUp, Download, FileText, Files } from "lucide-react";
 import { CredentialsSection } from "./credentials-section";
 import { HeroPortrait } from "./hero-portrait";
+import { GrayPetalFall } from "./gray-petal-fall";
 import { usePortfolioMotion } from "./use-portfolio-motion";
 import { MotionControl, useMotionPreference } from "./motion-preference";
 import {
@@ -99,6 +100,65 @@ function Navigation() {
         </button>
       </header>
     </div>
+  );
+}
+
+
+function DocumentDock() {
+  const [expanded, setExpanded] = useState(false);
+  const dockRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    function onOutsideClick(event: PointerEvent) {
+      if (dockRef.current && !dockRef.current.contains(event.target as Node)) {
+        setExpanded(false);
+      }
+    }
+    function onEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setExpanded(false);
+    }
+    document.addEventListener("pointerdown", onOutsideClick);
+    document.addEventListener("keydown", onEscape);
+    return () => {
+      document.removeEventListener("pointerdown", onOutsideClick);
+      document.removeEventListener("keydown", onEscape);
+    };
+  }, []);
+
+  return (
+    <aside className={`document-dock ${expanded ? "is-expanded" : ""}`} ref={dockRef} aria-label="Portfolio documents">
+      <div className="document-dock-panel" id="document-dock-panel" aria-hidden={!expanded}>
+        <div className="document-dock-heading">
+          <span>APPLICATION MATERIALS</span>
+          <span className="document-dock-tag">PDF / 02</span>
+        </div>
+        <p className="document-dock-intro">A closer look at my background and work.</p>
+        <a href={portfolio.cv} target="_blank" rel="noopener noreferrer" onClick={() => setExpanded(false)} aria-label="Open curriculum vitae PDF in a new tab">
+          <span className="document-dock-file-icon"><FileText size={19} strokeWidth={1.6} aria-hidden="true" /></span>
+          <span className="document-dock-file-copy"><strong>Curriculum Vitae</strong><small>View full CV</small></span>
+          <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
+        </a>
+        <a href={portfolio.resume} target="_blank" rel="noopener noreferrer" onClick={() => setExpanded(false)} aria-label="Open résumé PDF in a new tab">
+          <span className="document-dock-file-icon"><FileText size={19} strokeWidth={1.6} aria-hidden="true" /></span>
+          <span className="document-dock-file-copy"><strong>Résumé</strong><small>View one-page summary</small></span>
+          <ArrowUpRight size={17} strokeWidth={1.7} aria-hidden="true" />
+        </a>
+        <span className="document-dock-footnote">Opens in a new tab</span>
+      </div>
+      <button
+        type="button"
+        className="document-dock-trigger"
+        onClick={() => setExpanded(value => !value)}
+        aria-expanded={expanded}
+        aria-controls="document-dock-panel"
+        aria-label={expanded ? "Close portfolio documents menu" : "Open portfolio documents menu"}
+      >
+        <span className="document-dock-trigger-icon"><Files size={18} strokeWidth={1.7} aria-hidden="true" /></span>
+        <span className="document-dock-trigger-label">My documents</span>
+        <span className="document-dock-trigger-count">02</span>
+        <ChevronUp size={16} className="document-dock-chevron" aria-hidden="true" />
+      </button>
+    </aside>
   );
 }
 
@@ -216,6 +276,7 @@ export default function Home() {
         Skip to content
       </a>
       <Navigation />
+      <DocumentDock />
       <main id="main">
         <section
           id="home"
@@ -232,14 +293,14 @@ export default function Home() {
                 Blanza<span>.</span>
               </h1>
               <div className="hero-support">
-                <h2 className="hero-title">Computer Science &amp; Software Development</h2>
+                <h2 className="hero-title">Software Engineer &amp; Developer</h2>
                 <p className="hero-subtitle">
                   Web & Mobile Applications · Intelligent Systems
                 </p>
                 <p className="hero-intro">
-                  I develop practical software solutions, from web and mobile
-                  applications to intelligent systems, with a focus on usability
-                  and real-world impact.
+                  I build web and mobile applications and intelligent systems,
+                  combining hands-on development with practical problem-solving
+                  and collaborative engineering.
                 </p>
               </div>
               <div className="hero-controls">
@@ -247,28 +308,35 @@ export default function Home() {
                   <a className="button primary" href="#projects">
                     View My Work <Arrow />
                   </a>
-                  <a
-                    className="button secondary"
-                    href={portfolio.resume}
-                    download
-                    aria-label="Download Lycos Blanza résumé as a PDF"
-                  >
-                    Download Résumé <span aria-hidden="true">↓</span>
-                  </a>
+                </div>
+                <div className="hero-document-downloads" aria-label="Download application documents">
+                  <div className="hero-document-heading">
+                    <span>APPLICATION MATERIALS</span>
+                  </div>
+                  <div className="hero-document-grid">
+                    <a href={portfolio.cv} download="blanza-lycos-cv.pdf" aria-label="Download Lycos Blanza curriculum vitae as a PDF">
+                      <FileText size={20} strokeWidth={1.6} aria-hidden="true" />
+                      <span className="hero-document-link-text"><strong>Curriculum Vitae</strong><small>Detailed profile · PDF</small></span>
+                      <Download size={17} strokeWidth={1.7} aria-hidden="true" />
+                    </a>
+                    <a href={portfolio.resume} download="blanza-lycos-resume.pdf" aria-label="Download Lycos Blanza résumé as a PDF">
+                      <FileText size={20} strokeWidth={1.6} aria-hidden="true" />
+                      <span className="hero-document-link-text"><strong>Résumé</strong><small>One-page overview · PDF</small></span>
+                      <Download size={17} strokeWidth={1.7} aria-hidden="true" />
+                    </a>
+                  </div>
                 </div>
                 <SocialLinks />
               </div>
             </div>
             <HeroPortrait />
+            <GrayPetalFall />
             <div className="hero-bottom">
               <span className="hero-location">{portfolio.location}</span>
               <div className="hero-bottom-right">
-                <MotionControl
-                  enabled={motionEnabled}
-                  onToggle={toggleMotion}
-                />
+                <MotionControl enabled={motionEnabled} onToggle={toggleMotion} />
                 <a className="hero-scroll" href="#about">
-                  SCROLL <span aria-hidden="true">↓</span>
+                  <span className="hero-scroll-text">SCROLL TO EXPLORE</span> <span aria-hidden="true">↓</span>
                 </a>
               </div>
             </div>
@@ -399,9 +467,10 @@ export default function Home() {
                 <span>together.</span>
               </h2>
               <p>
-                I'm looking for a software development role where I can
-                contribute across web, mobile, and intelligent systems. Let's
-                discuss how I can support your team.
+                I'm open to opportunities, collaborations, and meaningful
+                projects where I can contribute my skills. Whether you're
+                building something new or looking for someone to join your team,
+                I'd be glad to connect.
               </p>
             </div>
             <div className="contact-action">

@@ -6,7 +6,28 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { credentials, featuredCredentials, type Credential, type CredentialCategory } from "./credentials";
 
 const AUTO_ADVANCE_MS = 6000;
-const filters: Array<"All" | CredentialCategory> = ["All", "Courses", "Seminars & Events", "Recognition"];
+const filters: Array<"All" | CredentialCategory> = ["All", "Recognition", "Courses", "Seminars & Events"];
+
+const archiveGroups: Array<{ category: CredentialCategory; heading: string; detail: string; order: string[] }> = [
+  {
+    category: "Recognition",
+    heading: "Academic Recognition",
+    detail: "A milestone worth highlighting",
+    order: ["honor"],
+  },
+  {
+    category: "Courses",
+    heading: "DataCamp · Courses",
+    detail: "Programming, data, and deep learning",
+    order: ["pytorch", "python", "intro-r", "intermediate-r", "tidyverse"],
+  },
+  {
+    category: "Seminars & Events",
+    heading: "Seminars & Workshops",
+    detail: "Innovation, research, and professional learning",
+    order: ["career", "calabarzon", "deepdive", "research", "ethical", "masterclass"],
+  },
+];
 
 function CredentialImage({ entry, className = "", eager = false }: { entry: Credential; className?: string; eager?: boolean }) {
   return <img className={className} src={entry.image} alt={`Original certificate: ${entry.title}`} loading={eager ? "eager" : "lazy"} decoding="async" />;
@@ -67,7 +88,15 @@ export function CredentialsSection({ motionEnabled }: { motionEnabled: boolean |
     changeSlide(activeIndex + (delta < 0 ? 1 : -1));
   };
 
-  const shown = filter === "All" ? credentials : credentials.filter(item => item.category === filter);
+  const groups = archiveGroups
+    .filter(group => filter === "All" || group.category === filter)
+    .map(group => ({
+      ...group,
+      entries: group.order.flatMap(id => {
+        const entry = credentials.find(item => item.id === id);
+        return entry ? [entry] : [];
+      }),
+    }));
   return <>
     <section id="credentials" ref={sectionRef} className="section credentials-section wrap" aria-labelledby="credentials-title">
       <p className="eyebrow section-label">04 / CREDENTIALS</p>
@@ -112,11 +141,34 @@ export function CredentialsSection({ motionEnabled }: { motionEnabled: boolean |
       <div className="credential-filters" role="group" aria-label="Filter certificates">
         {filters.map(option => <button type="button" key={option} onClick={() => setFilter(option)} aria-pressed={filter===option} className={filter===option ? "credential-filter is-active" : "credential-filter"}>{option}{option==="All" ? ` (${credentials.length})` : ""}</button>)}
       </div>
-      <div className="credential-cards" aria-live="polite">
-        {shown.map(entry => <article key={entry.id} className="credential-card">
-          <button type="button" className="credential-card-image" onClick={() => setSelected(entry)} aria-label={`View ${entry.title} certificate`}><CredentialImage entry={entry}/><span className="credential-card-open"><ExternalLink size={18} strokeWidth={1.6}/></span></button>
-          <div className="credential-card-body"><div className="credential-card-meta"><span>{entry.category}</span><span>{entry.date}</span></div><h4>{entry.title}</h4><p>{entry.description}</p><span className="credential-card-issuer">{entry.issuer}</span><button type="button" className="credential-card-view" onClick={() => setSelected(entry)}>View Certificate <ArrowDownRight size={15} strokeWidth={1.7}/></button></div>
-        </article>)}
+      <div className="credential-archive" aria-live="polite">
+        {groups.map((group, groupIndex) => (
+          <div className="credential-archive-group" key={group.category}>
+            <div className="credential-group-heading">
+              <div>
+                <span className="credential-group-index">0{groupIndex + 1} / {group.category.toUpperCase()}</span>
+                <h4>{group.heading}</h4>
+                <p>{group.detail}</p>
+              </div>
+              <span className="credential-group-count">{String(group.entries.length).padStart(2, "0")} CERTIFICATE{group.entries.length === 1 ? "" : "S"}</span>
+            </div>
+            <div className="credential-cards">
+              {group.entries.map(entry => <article key={entry.id} className={`credential-card ${entry.id === "honor" ? "credential-card-honor" : ""}`}>
+                <button type="button" className="credential-card-image" onClick={() => setSelected(entry)} aria-label={`View ${entry.title} certificate`}>
+                  <CredentialImage entry={entry}/>
+                  <span className="credential-card-open"><ExternalLink size={18} strokeWidth={1.6}/></span>
+                </button>
+                <div className="credential-card-body">
+                  <div className="credential-card-meta"><span>{entry.id === "honor" ? "ACADEMIC HONOR" : entry.category.toUpperCase()}</span><span>{entry.date}</span></div>
+                  <h4>{entry.title}</h4>
+                  <p>{entry.description}</p>
+                  <span className="credential-card-issuer">{entry.issuer}</span>
+                  <button type="button" className="credential-card-view" onClick={() => setSelected(entry)}>View Certificate <ArrowDownRight size={15} strokeWidth={1.7}/></button>
+                </div>
+              </article>)}
+            </div>
+          </div>
+        ))}
       </div>
     </section>
 
